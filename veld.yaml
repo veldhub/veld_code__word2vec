@@ -7,7 +7,7 @@ services:
     ports:
       - 8888:8888
     volumes:
-      - ./src:/home/docker_user/
-    working_dir: /home/docker_user/
-    command: jupyter notebook --ip='*' --NotebookApp.token='' --NotebookApp.password=''
+      - ./src:/veld/executable/
+    working_dir: /veld/executable/
+    command: jupyter notebook --ip='*' --NotebookApp.token='' --NotebookApp.password='' --allow-root
 
