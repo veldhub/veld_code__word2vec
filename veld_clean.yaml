@@ -1,0 +1,26 @@
+x-veld:
+  executable:
+    inputs:
+      - 
+        path: /veld/input/data.csv
+        type: file
+      - 
+        var: OUTPUT_FILE_NAME
+        type: variable
+    outputs:
+      -
+        path: /veld/output/
+        type: folder
+          
+services:
+  veld:
+    build: .
+    ports:
+      - 8888:8888
+    volumes:
+      - ./src/clean/:/veld/executable/
+    working_dir: /veld/executable/
+    command: jupyter notebook --ip='*' --NotebookApp.token='' --NotebookApp.password='' --allow-root
+
+
+
