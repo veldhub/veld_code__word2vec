@@ -1,15 +1,16 @@
 x-veld:
   executable:
     inputs:
-      -
-        path: /veld/input/
-        environment:
-          INPUT_FILE_NAME: "name of input file"
+      path: /veld/input/
+      content: csv
+      description: "uncleaned training data"
     outputs:
-      -
-        path: /veld/output/
-        environment:
-          OUTPUT_FILE_NAME: "name of output file"
+      path: /veld/output/
+      content: csv
+      description: "cleaned training data"
+    environment:
+      INPUT_FILE_NAME: "name of input file"
+      OUTPUT_FILE_NAME: "name of output file"
           
 services:
   veld:
