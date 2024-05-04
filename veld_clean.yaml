@@ -1,16 +1,15 @@
 x-veld:
   executable:
     inputs:
-      - 
-        path: /veld/input/data.csv
-        type: file
-      - 
-        var: OUTPUT_FILE_NAME
-        type: variable
+      -
+        path: /veld/input/
+        environment:
+          INPUT_FILE_NAME: "name of input file"
     outputs:
       -
         path: /veld/output/
-        type: folder
+        environment:
+          OUTPUT_FILE_NAME: "name of output file"
           
 services:
   veld:
