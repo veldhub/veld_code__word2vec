@@ -50,7 +50,7 @@ services:
     ports:
       - 8888:8888
     volumes:
-      - ./src/clean/:/veld/executable/
+      - ./src/preprocess/:/veld/executable/
     working_dir: /veld/executable/
     command: jupyter notebook --ip='*' --NotebookApp.token='' --NotebookApp.password='' --allow-root
 
