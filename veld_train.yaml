@@ -1,16 +1,74 @@
 x-veld:
   executable:
+
     inputs:
-      path: /veld/input/
-      content: csv
-      description: "training data"
+      volume: /veld/input/
+      type:
+        - "csv"
+      content: 
+        - "NLP training data"
+        - "NLP data"
+
     outputs:
-      path: /veld/output/
-      content: word2vec model
-      description: "NLP word2vec model"
+      volume: /veld/output/
+      type: "word2vec model"
+      content:
+        - "NLP model"
+        - "word embeddings model"
+
     environment:
-      TRAIN_DATA_FILE: "name of csv file used for training"
-      MODEL_NAME: "arbitrary name of model, used for output files and logging"
+      train_data_path:
+        description: "path to training data file"
+        type: string
+        prefix: "/veld/input/"
+      train_data_description:
+        description: "short human description for the kind of training data"
+        type: string
+      model_path:
+        description: "path to model file"
+        type: string
+        prefix: "/veld/output/"
+      model_architecture:
+        description: "short label for the overall training setup"
+        type: string
+      model_id: 
+        description: "id for the specific model"
+        type: string
+      vector_size: 
+        description: "word2vec hyperparameter"
+        type: int
+      window: 
+        description: "word2vec hyperparameter"
+        type: int
+      min_count: 
+        description: "word2vec hyperparameter"
+        type: int
+      workers: 
+        description: "word2vec hyperparameter, defining number of CPU cores to use. -1 means all"
+        type: int
+        default: -1
+
+    chain_template: # you can copy this template below into a new chain veld.yaml for using this executable
+      x-veld:
+        chain:
+      services:
+        veld:
+          extends:
+            file: ./<REPLACE_WITH_ROOT_FOLDER_OF_EXECUTABLE>/veld_train.yaml
+            service: veld
+          volumes:
+            - ./<REPLACE_WITH_ROOT_FOLDER_OF_TRAINING_DATA>/:/veld/input/
+            - ./<REPLACE_WITH_ROOT_FOLDER_OF_MODEL>/:/veld/output/
+          environment:
+            train_data_path: "/veld/input/<REPLACE_WITH_RELATIVE_PATH>"
+            train_data_description: "<REPLACE_OR_NOT>" 
+            model_path: "/veld/output/<REPLACE_WITH_RELATIVE_PATH>"
+            model_architecture: "<REPLACE>"
+            model_id: "<REPLACE>"
+            vector_size: "<REPLACE>"
+            window: "<REPLACE>"
+            min_count: "<REPLACE>"
+            workers: -1
           
 services:
   veld:
@@ -21,4 +79,6 @@ services:
       - ./src/train/:/veld/executable/
     working_dir: /veld/executable/
     command: jupyter notebook --ip='*' --NotebookApp.token='' --NotebookApp.password='' --allow-root
+    environment:
+      workers: -1
 
