@@ -2,7 +2,7 @@ x-veld:
   executable:
 
     inputs:
-      description: "uncleaned training data"
+      description: "uncleaned or unprocessed training data"
       volume: /veld/input/
       type: "csv"
       content: 
@@ -10,20 +10,22 @@ x-veld:
         - "NLP data"
 
     outputs:
-      description: "cleaned training data"
+      description: "cleaned or processed training data"
       volume: /veld/output/
-      type: "csv"
+      type:
+        - "csv"
+        - "txt"
       content: 
         - "NLP training data"
         - "NLP data"
 
     environment:
-      unclean_file_name:
-        description: "path to unclean data file"
+      unprocessed_file_name:
+        description: "path to unprocessed data file"
         type: string
         prefix: "/veld/input/"
-      clean_file_name:
-        description: "path to cleaned data file"
+      processed_file_name:
+        description: "path to processed data file"
         type: string
         prefix: "/veld/output/"
 
@@ -33,14 +35,14 @@ x-veld:
     services:
       veld:
         extends:
-          file: ./<REPLACE_WITH_ROOT_FOLDER_OF_EXECUTABLE>/veld_clean.yaml
+          file: ./<REPLACE_WITH_ROOT_FOLDER_OF_EXECUTABLE>/veld_preprocess.yaml
           service: veld
         volumes:
-          - ./<REPLACE_WITH_ROOT_FOLDER_OF_UNCLEAN_DATA>/:/veld/input/
-          - ./<REPLACE_WITH_ROOT_FOLDER_OF_CLEAN_DATA>/:/veld/output/
+          - ./<REPLACE_WITH_ROOT_FOLDER_OF_UNPROCESSED_DATA>/:/veld/input/
+          - ./<REPLACE_WITH_ROOT_FOLDER_OF_PROCESSED_DATA>/:/veld/output/
         environment:
-          unclean_file_path: "/veld/input/<REPLACE>"
-          clean_file_path: "/veld/output/<REPLACE>"
+          unprocessed_file_path: "/veld/input/<REPLACE>"
+          processed_file_path: "/veld/output/<REPLACE>"
           
 services:
   veld:
