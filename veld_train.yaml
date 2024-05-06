@@ -43,10 +43,6 @@ x-veld:
       min_count: 
         description: "word2vec hyperparameter"
         type: int
-      workers: 
-        description: "word2vec hyperparameter, defining number of CPU cores to use. -1 means all"
-        type: int
-        default: -1
 
     chain_template: # you can copy this template below into a new chain veld.yaml for using this executable
       x-veld:
@@ -68,7 +64,6 @@ x-veld:
             vector_size: "<REPLACE>"
             window: "<REPLACE>"
             min_count: "<REPLACE>"
-            workers: -1
           
 services:
   veld:
