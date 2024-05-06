@@ -1,16 +1,46 @@
 x-veld:
   executable:
+
     inputs:
-      path: /veld/input/
-      content: csv
       description: "uncleaned training data"
+      volume: /veld/input/
+      type: "csv"
+      content: 
+        - "NLP training data"
+        - "NLP data"
+
     outputs:
-      path: /veld/output/
-      content: csv
       description: "cleaned training data"
+      volume: /veld/output/
+      type: "csv"
+      content: 
+        - "NLP training data"
+        - "NLP data"
+
     environment:
-      INPUT_FILE_NAME: "name of input file"
-      OUTPUT_FILE_NAME: "name of output file"
+      unclean_file_name:
+        description: "path to unclean data file"
+        type: string
+        prefix: "/veld/input/"
+      clean_file_name:
+        description: "path to cleaned data file"
+        type: string
+        prefix: "/veld/output/"
+
+  chain_template: # you can copy this template below into a new chain veld.yaml for using this executable
+    x-veld:
+      chain:
+    services:
+      veld:
+        extends:
+          file: ./<REPLACE_WITH_ROOT_FOLDER_OF_EXECUTABLE>/veld_clean.yaml
+          service: veld
+        volumes:
+          - ./<REPLACE_WITH_ROOT_FOLDER_OF_UNCLEAN_DATA>/:/veld/input/
+          - ./<REPLACE_WITH_ROOT_FOLDER_OF_CLEAN_DATA>/:/veld/output/
+        environment:
+          unclean_file_path: "/veld/input/<REPLACE>"
+          clean_file_path: "/veld/output/<REPLACE>"
           
 services:
   veld:
@@ -21,6 +51,4 @@ services:
       - ./src/clean/:/veld/executable/
     working_dir: /veld/executable/
     command: jupyter notebook --ip='*' --NotebookApp.token='' --NotebookApp.password='' --allow-root
-
-
 
