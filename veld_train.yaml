@@ -5,6 +5,7 @@ x-veld:
       volume: /veld/input/
       type:
         - "csv"
+        - "txt"
       content: 
         - "NLP training data"
         - "NLP data"
@@ -20,14 +21,15 @@ x-veld:
       train_data_path:
         description: "path to training data file"
         type: string
-        prefix: "/veld/input/"
+        path_prefix: "/veld/input/"
       train_data_description:
         description: "short human description for the kind of training data"
         type: string
+        optional: true
       model_path:
         description: "path to model file"
         type: string
-        prefix: "/veld/output/"
+        path_prefix: "/veld/output/"
       model_architecture:
         description: "short label for the overall training setup"
         type: string
@@ -74,6 +76,4 @@ services:
       - ./src/train/:/veld/executable/
     working_dir: /veld/executable/
     command: jupyter notebook --ip='*' --NotebookApp.token='' --NotebookApp.password='' --allow-root
-    environment:
-      workers: -1
 

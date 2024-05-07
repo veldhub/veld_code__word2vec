@@ -23,11 +23,11 @@ x-veld:
       unprocessed_file_name:
         description: "path to unprocessed data file"
         type: string
-        prefix: "/veld/input/"
+        path_prefix: "/veld/input/"
       processed_file_name:
         description: "path to processed data file"
         type: string
-        prefix: "/veld/output/"
+        path_prefix: "/veld/output/"
 
   chain_template: # you can copy this template below into a new chain veld.yaml for using this executable
     x-veld:
