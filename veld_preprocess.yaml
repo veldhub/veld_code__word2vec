@@ -40,4 +40,7 @@ services:
       - ./src/preprocess/:/veld/executable/
     working_dir: /veld/executable/
     command: jupyter notebook --ip='*' --NotebookApp.token='' --NotebookApp.password='' --allow-root
+    environment:
+      unprocessed_file_name: "/veld/input/<REPLACE>"
+      processed_file_name: "/veld/output/<REPLACE>"
 

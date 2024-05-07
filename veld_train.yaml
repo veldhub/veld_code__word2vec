@@ -57,4 +57,13 @@ services:
       - ./src/train/:/veld/executable/
     working_dir: /veld/executable/
     command: jupyter notebook --ip='*' --NotebookApp.token='' --NotebookApp.password='' --allow-root
+    environment:
+      train_data_path: "/veld/input/<REPLACE>"
+      train_data_description: "<REPLACE>"
+      model_path: "/veld/output/<REPLACE>"
+      training_architecture: "<REPLACE>"
+      model_id: "<REPLACE>"
+      vector_size: 300
+      window: 10
+      min_count: 5
 
