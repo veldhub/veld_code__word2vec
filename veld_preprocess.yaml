@@ -35,8 +35,8 @@ services:
     ports:
       - 8888:8888
     volumes:
-      - ./veld_dev_volumes/preprocess/input/:/veld/input/
-      - ./veld_dev_volumes/preprocess/output/:/veld/output/
+      - ./volumes/preprocess/input/:/veld/input/
+      - ./volumes/preprocess/output/:/veld/output/
       - ./src/preprocess/:/veld/executable/
     working_dir: /veld/executable/
     command: jupyter notebook --ip='*' --NotebookApp.token='' --NotebookApp.password='' --allow-root
