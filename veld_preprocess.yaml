@@ -28,21 +28,6 @@ x-veld:
         description: "path to processed data file"
         type: string
         path_prefix: "/veld/output/"
-
-  chain_template: # you can copy this template below into a new chain veld.yaml for using this executable
-    x-veld:
-      chain:
-    services:
-      veld:
-        extends:
-          file: ./<REPLACE_WITH_ROOT_FOLDER_OF_EXECUTABLE>/veld_preprocess.yaml
-          service: veld
-        volumes:
-          - ./<REPLACE_WITH_ROOT_FOLDER_OF_UNPROCESSED_DATA>/:/veld/input/
-          - ./<REPLACE_WITH_ROOT_FOLDER_OF_PROCESSED_DATA>/:/veld/output/
-        environment:
-          unprocessed_file_path: "/veld/input/<REPLACE>"
-          processed_file_path: "/veld/output/<REPLACE>"
           
 services:
   veld:

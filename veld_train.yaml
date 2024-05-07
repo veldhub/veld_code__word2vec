@@ -30,7 +30,7 @@ x-veld:
         description: "path to model file"
         type: string
         path_prefix: "/veld/output/"
-      model_architecture:
+      training_architecture:
         description: "short label for the overall training setup"
         type: string
       model_id: 
@@ -45,27 +45,6 @@ x-veld:
       min_count: 
         description: "word2vec hyperparameter"
         type: int
-
-    chain_template: # you can copy this template below into a new chain veld.yaml for using this executable
-      x-veld:
-        chain:
-      services:
-        veld:
-          extends:
-            file: ./<REPLACE_WITH_ROOT_FOLDER_OF_EXECUTABLE>/veld_train.yaml
-            service: veld
-          volumes:
-            - ./<REPLACE_WITH_ROOT_FOLDER_OF_TRAINING_DATA>/:/veld/input/
-            - ./<REPLACE_WITH_ROOT_FOLDER_OF_MODEL>/:/veld/output/
-          environment:
-            train_data_path: "/veld/input/<REPLACE_WITH_RELATIVE_PATH>"
-            train_data_description: "<REPLACE_OR_NOT>" 
-            model_path: "/veld/output/<REPLACE_WITH_RELATIVE_PATH>"
-            model_architecture: "<REPLACE>"
-            model_id: "<REPLACE>"
-            vector_size: "<REPLACE>"
-            window: "<REPLACE>"
-            min_count: "<REPLACE>"
           
 services:
   veld:
