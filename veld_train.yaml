@@ -19,17 +19,19 @@ x-veld:
 
     environment:
       train_data_path:
-        description: "path to training data file"
-        type: string
         path_prefix: "/veld/input/"
+        description: "path to training data file"
+        type:
+          - "csv"
+          - "txt"
       train_data_description:
         description: "short human description for the kind of training data"
         type: string
         optional: true
       model_path:
-        description: "path to model file"
-        type: string
         path_prefix: "/veld/output/"
+        description: "path to model file"
+        type: "word2vec model"
       training_architecture:
         description: "short label for the overall training setup"
         type: string
