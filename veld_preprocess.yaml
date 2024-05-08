@@ -21,13 +21,15 @@ x-veld:
 
     environment:
       unprocessed_file_name:
-        description: "path to unprocessed data file"
-        type: string
         path_prefix: "/veld/input/"
+        description: "path to unprocessed data file"
+        type: "csv"
       processed_file_name:
-        description: "path to processed data file"
-        type: string
         path_prefix: "/veld/output/"
+        description: "path to processed data file"
+        type:
+          - "csv"
+          - "txt"
           
 services:
   veld:
