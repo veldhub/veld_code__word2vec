@@ -65,7 +65,7 @@ services:
       model_path: "/veld/output/<REPLACE>"
       training_architecture: "<REPLACE>"
       model_id: "<REPLACE>"
-      vector_size: 300
-      window: 10
+      vector_size: 500
+      window: 5
       min_count: 5
 
