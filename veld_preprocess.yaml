@@ -32,7 +32,7 @@ x-veld:
           - "txt"
           
 services:
-  veld:
+  veld_preprocess:
     build: .
     ports:
       - 8888:8888
