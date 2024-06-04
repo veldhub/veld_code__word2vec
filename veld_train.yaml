@@ -1,5 +1,5 @@
 x-veld:
-  executable:
+  code:
 
     inputs:
       volume: /veld/input/
@@ -56,8 +56,8 @@ services:
     volumes:
       - ./volumes/train/input/:/veld/input/
       - ./volumes/train/output/:/veld/output/
-      - ./src/train/:/veld/executable/
-    working_dir: /veld/executable/
+      - ./src/train/:/veld/code/
+    working_dir: /veld/code/
     command: jupyter notebook --ip='*' --NotebookApp.token='' --NotebookApp.password='' --allow-root
     environment:
       train_data_path: "/veld/input/<REPLACE>"

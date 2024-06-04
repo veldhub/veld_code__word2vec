@@ -1,5 +1,5 @@
 x-veld:
-  executable:
+  code:
 
     inputs:
       description: "uncleaned or unprocessed training data"
@@ -39,8 +39,8 @@ services:
     volumes:
       - ./volumes/preprocess/input/:/veld/input/
       - ./volumes/preprocess/output/:/veld/output/
-      - ./src/preprocess/:/veld/executable/
-    working_dir: /veld/executable/
+      - ./src/preprocess/:/veld/code/
+    working_dir: /veld/code/
     command: jupyter notebook --ip='*' --NotebookApp.token='' --NotebookApp.password='' --allow-root
     environment:
       unprocessed_file_name: "/veld/input/<REPLACE>"
