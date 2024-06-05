@@ -1,37 +1,39 @@
 x-veld:
   code:
+    # TODO
+    about:
+      description:
+      topics:
 
     inputs:
       volume: /veld/input/
-      type:
+      file_formats:
         - "csv"
         - "txt"
-      content: 
+      contents: 
         - "NLP training data"
         - "NLP data"
 
     outputs:
       volume: /veld/output/
-      type: "word2vec model"
-      content:
+      file_formats: "word2vec model"
+      contents:
         - "NLP model"
         - "word embeddings model"
 
     environment:
       train_data_path:
-        path_prefix: "/veld/input/"
         description: "path to training data file"
-        type:
-          - "csv"
-          - "txt"
+        type: path
+        path_prefix: "/veld/input/"
       train_data_description:
         description: "short human description for the kind of training data"
         type: string
         optional: true
       model_path:
-        path_prefix: "/veld/output/"
         description: "path to model file"
-        type: "word2vec model"
+        type: path
+        path_prefix: "/veld/output/"
       training_architecture:
         description: "short label for the overall training setup"
         type: string
@@ -41,30 +43,34 @@ x-veld:
       vector_size: 
         description: "word2vec hyperparameter"
         type: int
+        default: 500
       window: 
         description: "word2vec hyperparameter"
         type: int
+        default: 5
       min_count: 
         description: "word2vec hyperparameter"
         type: int
+        default: 5
           
 services:
   veld_train:
     build: .
+    command: jupyter notebook --ip='*' --NotebookApp.token='' --NotebookApp.password='' --allow-root
     ports:
       - 8888:8888
+    # TODO: check if this work dir is necessary
+    working_dir: /veld/code/
     volumes:
       - ./volumes/train/input/:/veld/input/
       - ./volumes/train/output/:/veld/output/
       - ./src/train/:/veld/code/
-    working_dir: /veld/code/
-    command: jupyter notebook --ip='*' --NotebookApp.token='' --NotebookApp.password='' --allow-root
     environment:
-      train_data_path: "/veld/input/<REPLACE>"
-      train_data_description: "<REPLACE>"
-      model_path: "/veld/output/<REPLACE>"
-      training_architecture: "<REPLACE>"
-      model_id: "<REPLACE>"
+      train_data_path: null
+      train_data_description: null
+      model_path: null
+      training_architecture: null
+      model_id: null
       vector_size: 500
       window: 5
       min_count: 5

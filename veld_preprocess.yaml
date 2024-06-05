@@ -1,39 +1,42 @@
 x-veld:
   code:
+    # TODO
+    about:
+      description:
+      topics:
 
     inputs:
       description: "uncleaned or unprocessed training data"
       volume: /veld/input/
-      type: "csv"
-      content: 
+      file_formats: "csv"
+      contents: 
         - "NLP training data"
         - "NLP data"
 
     outputs:
       description: "cleaned or processed training data"
       volume: /veld/output/
-      type:
+      file_formats:
         - "csv"
         - "txt"
-      content: 
+      contents: 
         - "NLP training data"
         - "NLP data"
 
     environment:
       unprocessed_file_name:
-        path_prefix: "/veld/input/"
         description: "path to unprocessed data file"
-        type: "csv"
+        type: path
+        path_prefix: "/veld/input/"
       processed_file_name:
-        path_prefix: "/veld/output/"
         description: "path to processed data file"
-        type:
-          - "csv"
-          - "txt"
+        type: path
+        path_prefix: "/veld/output/"
           
 services:
   veld_preprocess:
     build: .
+    command: jupyter notebook --ip='*' --NotebookApp.token='' --NotebookApp.password='' --allow-root
     ports:
       - 8888:8888
     volumes:
@@ -41,8 +44,7 @@ services:
       - ./volumes/preprocess/output/:/veld/output/
       - ./src/preprocess/:/veld/code/
     working_dir: /veld/code/
-    command: jupyter notebook --ip='*' --NotebookApp.token='' --NotebookApp.password='' --allow-root
     environment:
-      unprocessed_file_name: "/veld/input/<REPLACE>"
-      processed_file_name: "/veld/output/<REPLACE>"
+      unprocessed_file_name: null
+      processed_file_name: null
 
