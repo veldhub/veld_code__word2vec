@@ -1,6 +1,5 @@
 x-veld:
   code:
-    # TODO
     about:
       description:
       topics:
@@ -22,7 +21,7 @@ x-veld:
         - "word embeddings model"
 
     environment:
-      train_data_path:
+      in_train_data_file:
         description: "path to training data file"
         type: path
         path_prefix: "/veld/input/"
@@ -30,16 +29,10 @@ x-veld:
         description: "short human description for the kind of training data"
         type: string
         optional: true
-      model_path:
+      out_model_file:
         description: "path to model file"
         type: path
         path_prefix: "/veld/output/"
-      training_architecture:
-        description: "short label for the overall training setup"
-        type: string
-      model_id: 
-        description: "id for the specific model"
-        type: string
       vector_size: 
         description: "word2vec hyperparameter"
         type: int
@@ -56,21 +49,14 @@ x-veld:
 services:
   veld_train:
     build: .
-    command: jupyter notebook --ip='*' --NotebookApp.token='' --NotebookApp.password='' --allow-root
-    ports:
-      - 8888:8888
-    # TODO: check if this work dir is necessary
-    working_dir: /veld/code/
+    command: python /veld/code/train.py
     volumes:
-      - ./volumes/train/input/:/veld/input/
-      - ./volumes/train/output/:/veld/output/
-      - ./src/train/:/veld/code/
+      - ./volumes/train/input/:/veld/input/:z
+      - ./volumes/train/output/:/veld/output/:z
+      - ./src/train/:/veld/code/:z
     environment:
-      train_data_path: null
-      train_data_description: null
-      model_path: null
-      training_architecture: null
-      model_id: null
+      in_train_data_file: null
+      out_model_file: null
       vector_size: 500
       window: 5
       min_count: 5
