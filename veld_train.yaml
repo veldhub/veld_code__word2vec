@@ -57,7 +57,7 @@ services:
       - ./src/train/:/veld/code/:z
     environment:
       in_train_data_file: null
-      out_model_file: null
+      model_id: null
       epochs: 10
       vector_size: 500
       window: 5

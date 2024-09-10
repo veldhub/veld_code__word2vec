@@ -1,9 +1,11 @@
 import os
-import gensim
-from gensim.models.word2vec import LineSentence
-from datetime import datetime
 import subprocess
+from datetime import datetime
+
+import gensim
 import yaml
+from gensim.models.word2vec import LineSentence
+from gensim.models.callbacks import CallbackAny2Vec
 
 
 # train data 
@@ -58,6 +60,16 @@ def print_params():
 
 
 def train_and_persist():
+
+    class LossLogger(CallbackAny2Vec):
+        def __init__(self):
+            self.epoch = 0
+
+        def on_epoch_end(self, model):
+            loss = model.get_latest_training_loss()
+            print(f"epoch: {self.epoch}, loss: {loss}")
+            self.epoch += 1
+
     print("start training")
     sentences = LineSentence(TRAIN_DATA_PATH)
     time_start = datetime.now()
@@ -67,7 +79,8 @@ def train_and_persist():
         vector_size=VECTOR_SIZE,
         window=WINDOW,
         min_count=MIN_COUNT,
-        workers=os.cpu_count()
+        workers=os.cpu_count(),
+        callbacks=[LossLogger()],
     )
     global DURATION
     DURATION = (datetime.now() - time_start).seconds / 3600
@@ -120,7 +133,7 @@ def write_metadata():
     }
 
     # write to yaml
-    with open("/veld/output/veld.yaml", "w") as f:
+    with open(MODEL_METADATA_PATH, "w") as f:
         yaml.dump(out_veld_metadata, f, sort_keys=False)
 
 
