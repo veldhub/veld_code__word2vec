@@ -1,7 +1,5 @@
 import os
-import pandas as pd
 import gensim
-from gensim.utils import simple_preprocess
 from gensim.models.word2vec import LineSentence
 from datetime import datetime
 import subprocess
@@ -9,27 +7,26 @@ import yaml
 
 
 # train data 
-TRAIN_DATA_FILE = os.getenv("in_train_data_file")
-TRAIN_DATA_PATH = "/veld/input/" +  TRAIN_DATA_FILE
+TRAIN_DATA_PATH = "/veld/input/" + os.getenv("in_train_data_file")
 
 # model data
 TRAINING_ARCHITECTURE = "word2vec_v1"
-OUT_MODEL_FILE = os.getenv("out_model_file")
-OUT_MODEL_PATH = "/veld/output/" + OUT_MODEL_FILE
+MODEL_ID = os.getenv("model_id")
+OUT_MODEL_PATH = "/veld/output/" + MODEL_ID + ".bin"
 MODEL_METADATA_PATH = OUT_MODEL_PATH + "metadata.yaml"
 
 # model hyperparameters
+EPOCHS = int(os.getenv("epochs"))
 VECTOR_SIZE = int(os.getenv("vector_size"))
 WINDOW = int(os.getenv("window"))
 MIN_COUNT = int(os.getenv("min_count"))
-
 
 # dynamically loaded metadata
 TRAIN_DATA_DESCRIPTION = None
 DURATION = None
 
 
-def get_desc():
+def get_description():
     veld_file = None
     for file in os.listdir("/veld/input/"):
         if file.startswith("veld") and file.endswith("yaml"):
@@ -42,13 +39,18 @@ def get_desc():
     with open("/veld/input/" + veld_file, "r") as f:
         input_veld_metadata = yaml.safe_load(f)
         global TRAIN_DATA_DESCRIPTION
-        TRAIN_DATA_DESCRIPTION = input_veld_metadata["x-veld"]["data"]["about"]["description"]
+        try:
+            TRAIN_DATA_DESCRIPTION = input_veld_metadata["x-veld"]["data"]["description"]
+        except:
+            pass
 
 
 def print_params():
     print(f"TRAIN_DATA_PATH: {TRAIN_DATA_PATH}")
     print(f"TRAIN_DATA_DESCRIPTION: {TRAIN_DATA_DESCRIPTION}")
-    print(f"OUT_MODEL_FILE: {OUT_MODEL_FILE}")
+    print(f"MODEL_ID: {MODEL_ID}")
+    print(f"OUT_MODEL_PATH: {OUT_MODEL_PATH}")
+    print(f"EPOCHS: {EPOCHS}")
     print(f"TRAINING_ARCHITECTURE: {TRAINING_ARCHITECTURE}")
     print(f"VECTOR_SIZE: {VECTOR_SIZE}")
     print(f"WINDOW: {WINDOW}")
@@ -56,10 +58,12 @@ def print_params():
 
 
 def train_and_persist():
+    print("start training")
     sentences = LineSentence(TRAIN_DATA_PATH)
     time_start = datetime.now()
     model = gensim.models.Word2Vec(
         sentences=sentences,
+        epochs=EPOCHS,
         vector_size=VECTOR_SIZE,
         window=WINDOW,
         min_count=MIN_COUNT,
@@ -68,6 +72,7 @@ def train_and_persist():
     global DURATION
     DURATION = (datetime.now() - time_start).seconds / 3600
     model.save(OUT_MODEL_PATH)
+    print(f"done. duration in hours: {DURATION}")
 
 
 def write_metadata():
@@ -88,17 +93,20 @@ def write_metadata():
     out_veld_metadata = {
         "x-veld": {
             "data": {
-                "about": {
-                    "description": "word2vec test model",
-                },
-                "file_type": "bin",
-                "content": [
+                "description": "word2vec test model",
+                "file_types": "bin",
+                "topics": [
+                    "NLP",
+                    "word embeddings",
+                ],
+                "contents": [
                     "word embeddings model",
                     "word2vec model",
                 ],
-                "details": {
-                    "train_data_description": TRAIN_DATA_DESCRIPTION,
+                "additional": {
+                    "model_id": MODEL_ID,
                     "training_architecture": TRAINING_ARCHITECTURE,
+                    "train_data_description": TRAIN_DATA_DESCRIPTION,
                     "train_data_size": train_data_size,
                     "train_data_md5_hash": train_data_md5_hash,
                     "training_vector_size": VECTOR_SIZE,
@@ -117,7 +125,7 @@ def write_metadata():
 
 
 def main():
-    get_desc()
+    get_description()
     print_params()
     train_and_persist()
     write_metadata()

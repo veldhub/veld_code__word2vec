@@ -21,6 +21,7 @@ x-veld:
         - "word embeddings model"
 
     environment:
+      # TODO: add epochs
       in_train_data_file:
         description: "path to training data file"
         type: path
@@ -57,6 +58,7 @@ services:
     environment:
       in_train_data_file: null
       out_model_file: null
+      epochs: 10
       vector_size: 500
       window: 5
       min_count: 5

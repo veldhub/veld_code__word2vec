@@ -7,16 +7,15 @@ x-veld:
         - "Machine Learning"
         - "word embeddings"
 
-    data:
-      volume: /veld/data/
+    storage:
+      volume: /veld/storage/
 
 services:
   veld_jupyter_notebook:
     build: .
-    #command: jupyter notebook --allow-root --ip='*' --NotebookApp.token='' --NotebookApp.password=''
-    command: python /veld/code/test.py
-    #ports:
-    #  - 8888:8888
+    command: jupyter notebook --allow-root --ip='*' --NotebookApp.token='' --NotebookApp.password=''
+    ports:
+      - 8888:8888
     volumes:
       - ./src/jupyter_notebook/:/veld/code/:z
 
