@@ -83,9 +83,9 @@ def train_and_persist():
         callbacks=[LossLogger()],
     )
     global DURATION
-    DURATION = (datetime.now() - time_start).seconds / 3600
+    DURATION = (datetime.now() - time_start).seconds / 60
     model.save(OUT_MODEL_PATH)
-    print(f"done. duration in hours: {DURATION}")
+    print(f"done. duration in minutes: {DURATION}")
 
 
 def write_metadata():
@@ -125,7 +125,7 @@ def write_metadata():
                     "training_vector_size": VECTOR_SIZE,
                     "window": WINDOW,
                     "min_count": MIN_COUNT,
-                    "training_duration (hours)": round(DURATION, 1),
+                    "training_duration (minutes)": round(DURATION, 1),
                     "model_data_size": model_data_size,
                 }
             }
