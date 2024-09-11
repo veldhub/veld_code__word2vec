@@ -12,8 +12,9 @@ from gensim.models.callbacks import CallbackAny2Vec
 TRAIN_DATA_PATH = "/veld/input/" + os.getenv("in_train_data_file")
 
 # model data
-TRAINING_ARCHITECTURE = "word2vec_v1"
+TRAINING_ARCHITECTURE = "word2vec"
 MODEL_ID = os.getenv("model_id")
+MODEL_DESCRIPTION = os.getenv("model_description")
 OUT_MODEL_PATH = "/veld/output/" + MODEL_ID + ".bin"
 OUT_MODEL_METADATA_PATH = "/veld/output/veld.yaml"
 
@@ -107,7 +108,7 @@ def write_metadata():
     out_veld_metadata = {
         "x-veld": {
             "data": {
-                "description": "word2vec test model",
+                "description": MODEL_DESCRIPTION,
                 "file_types": "bin",
                 "topics": [
                     "NLP",

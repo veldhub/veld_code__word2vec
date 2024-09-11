@@ -58,8 +58,9 @@ services:
     environment:
       in_train_data_file: null
       model_id: null
-      epochs: 10
-      vector_size: 500
+      model_description: null
+      epochs: 100
+      vector_size: 200
       window: 5
       min_count: 5
 
