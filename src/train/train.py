@@ -13,10 +13,11 @@ TRAIN_DATA_PATH = "/veld/input/" + os.getenv("in_train_data_file")
 
 # model data
 TRAINING_ARCHITECTURE = "word2vec"
-MODEL_ID = os.getenv("model_id")
 MODEL_DESCRIPTION = os.getenv("model_description")
-OUT_MODEL_PATH = "/veld/output/" + MODEL_ID + ".bin"
+OUT_MODEL_FILE = os.getenv("out_model_file")
+OUT_MODEL_PATH = "/veld/output/" + OUT_MODEL_FILE
 OUT_MODEL_METADATA_PATH = "/veld/output/veld.yaml"
+MODEL_ID = OUT_MODEL_FILE.replace(".bin", "")
 
 # model hyperparameters
 EPOCHS = int(os.getenv("epochs"))
@@ -52,7 +53,7 @@ def get_description():
 def print_params():
     print(f"TRAIN_DATA_PATH: {TRAIN_DATA_PATH}", flush=True)
     print(f"TRAIN_DATA_DESCRIPTION: {TRAIN_DATA_DESCRIPTION}", flush=True)
-    print(f"MODEL_ID: {MODEL_ID}", flush=True)
+    print(f"OUT_MODEL_PATH: {OUT_MODEL_PATH}", flush=True)
     print(f"OUT_MODEL_PATH: {OUT_MODEL_PATH}", flush=True)
     print(f"EPOCHS: {EPOCHS}", flush=True)
     print(f"TRAINING_ARCHITECTURE: {TRAINING_ARCHITECTURE}", flush=True)
