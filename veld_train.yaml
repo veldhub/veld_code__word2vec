@@ -6,7 +6,6 @@ x-veld:
       - "Machine Learning"
       - "word embeddings"
 
-
     inputs:
       - description: "training data. Must be one single txt file, one sentence per line."
         volume: /veld/input/
