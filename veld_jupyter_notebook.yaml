@@ -1,14 +1,26 @@
 x-veld:
   code:
-    about:
-      description: "a fasttext training and inference jupyter notebook."
-      topics:
-        - "NLP"
-        - "Machine Learning"
-        - "word embeddings"
+    description: "a word2vec jupyter notebook, for quick experiments"
+    topics:
+      - "NLP"
+      - "Machine Learning"
+      - "word embeddings"
 
     storage:
+      description: "arbitrary storage for word2vec experiments"
       volume: /veld/storage/
+      file_type:
+        - "word2vec model"
+        - "training data"
+        - "NLP training data"
+        - "raw text"
+      contents:
+        - "NLP model"
+        - "word embeddings model"
+        - "model metadata"
+        - "NLP training data"
+        - "word embeddings training data"
+        - "raw text"
 
 services:
   veld_jupyter_notebook:
@@ -18,4 +30,5 @@ services:
       - 8888:8888
     volumes:
       - ./src/jupyter_notebook/:/veld/code/:z
+      - ./data/:/veld/storage/:z
 

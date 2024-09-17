@@ -1,50 +1,60 @@
 x-veld:
   code:
-    about:
-      description:
-      topics:
+    description: "word2vec training setup"
+    topics:
+      - "NLP"
+      - "Machine Learning"
+      - "word embeddings"
+
 
     inputs:
-      volume: /veld/input/
-      file_formats:
-        - "csv"
-        - "txt"
-      contents: 
-        - "NLP training data"
-        - "NLP data"
+      - description: "training data. Must be one single txt file, one sentence per line."
+        volume: /veld/input/
+        environment: in_train_data_file
+        file_type: "txt"
+        contents:
+          - "NLP training data"
+          - "word embeddings training data"
+          - "raw text"
 
     outputs:
-      volume: /veld/output/
-      file_formats: "word2vec model"
-      contents:
-        - "NLP model"
-        - "word embeddings model"
+      - description: "self trained word embeddings word2vec model"
+        volume: /veld/output/
+        environment: out_model_file
+        file_type: "word2vec model"
+        contents:
+          - "NLP model"
+          - "word embeddings model"
 
     environment:
-      # TODO: add epochs
       in_train_data_file:
-        description: "path to training data file"
-        type: path
-        path_prefix: "/veld/input/"
+        description: "name of training data file"
+      out_model_file:
+        description: "name of model file"
       train_data_description:
         description: "short human description for the kind of training data"
-        type: string
+        env_type: "string"
         optional: true
-      out_model_file:
-        description: "path to model file"
-        type: path
-        path_prefix: "/veld/output/"
+      model_description:
+        description: "short human description for the overall model and its purpose"
+        env_type: "string"
+        optional: true
+      epochs:
+        description: "word2vec hyperparameter: number of training epochs"
+        env_type: "int"
+        optional: true
+        default: 100
       vector_size: 
-        description: "word2vec hyperparameter"
-        type: int
-        default: 500
+        description: "word2vec hyperparameter: number of dimensions of the word vectors"
+        env_type: "int"
+        default: 200
       window: 
-        description: "word2vec hyperparameter"
-        type: int
+        description: "word2vec hyperparameter: number of surrounding context words to be used for training."
+        env_type: "int"
         default: 5
       min_count: 
-        description: "word2vec hyperparameter"
-        type: int
+        description: "word2vec hyperparameter: minimal number of occurrence for each word to be used for training."
+        env_type: "int"
         default: 5
           
 services:
@@ -52,9 +62,9 @@ services:
     build: .
     command: python /veld/code/train.py
     volumes:
-      - ./volumes/train/input/:/veld/input/:z
-      - ./volumes/train/output/:/veld/output/:z
       - ./src/train/:/veld/code/:z
+      - ./data/training_data/:/veld/input/:z
+      - ./data/models/:/veld/output/:z
     environment:
       in_train_data_file: null
       out_model_file: null
