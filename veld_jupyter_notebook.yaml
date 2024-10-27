@@ -6,21 +6,24 @@ x-veld:
       - "Machine Learning"
       - "word embeddings"
 
-    storage:
-      description: "arbitrary storage for word2vec experiments"
-      volume: /veld/storage/
-      file_type:
-        - "word2vec model"
-        - "training data"
-        - "NLP training data"
-        - "raw text"
-      contents:
-        - "NLP model"
-        - "word embeddings model"
-        - "model metadata"
-        - "NLP training data"
-        - "word embeddings training data"
-        - "raw text"
+    inputs:
+      - volume: /veld/input/
+        description: "arbitrary storage for word2vec experiments"
+        file_type:
+          - "word2vec model"
+          - "training data"
+          - "NLP training data"
+          - "raw text"
+        contents:
+          - "NLP model"
+          - "word embeddings model"
+          - "model metadata"
+          - "NLP training data"
+          - "word embeddings training data"
+          - "raw text"
+    outputs:
+      - volume: /veld/output/
+        description: "arbitrary storage for word2vec experiments"
 
 services:
   veld_jupyter_notebook:
@@ -30,5 +33,6 @@ services:
       - 8888:8888
     volumes:
       - ./src/jupyter_notebook/:/veld/code/:z
-      - ./data/:/veld/storage/:z
+      - ./data/input/:/veld/input/:z
+      - ./data/output/:/veld/output/:z
 

@@ -7,9 +7,9 @@ x-veld:
       - "word embeddings"
 
     inputs:
-      - description: "training data. Must be one single txt file, one sentence per line."
-        volume: /veld/input/
+      - volume: /veld/input/
         environment: in_train_data_file
+        description: "training data. Must be one single txt file, one sentence per line."
         file_type: "txt"
         contents:
           - "NLP training data"
