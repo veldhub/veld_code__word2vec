@@ -17,41 +17,37 @@ x-veld:
           - "raw text"
 
     outputs:
-      - description: "self trained word embeddings word2vec model"
-        volume: /veld/output/
+      - volume: /veld/output/
         environment: out_model_file
+        description: "self trained word embeddings word2vec model"
         file_type: "word2vec model"
         contents:
           - "NLP model"
           - "word embeddings model"
 
-    environment:
-      in_train_data_file:
-        description: "name of training data file"
-      out_model_file:
-        description: "name of model file"
-      train_data_description:
+    settings:
+      - environment: train_data_description
         description: "short human description for the kind of training data"
         env_type: "string"
         optional: true
-      model_description:
+      - environment: model_description
         description: "short human description for the overall model and its purpose"
         env_type: "string"
         optional: true
-      epochs:
+      - environment: epochs
         description: "word2vec hyperparameter: number of training epochs"
         env_type: "int"
         optional: true
         default: 100
-      vector_size: 
+      - environment: vector_size
         description: "word2vec hyperparameter: number of dimensions of the word vectors"
         env_type: "int"
         default: 200
-      window: 
+      - environment: window
         description: "word2vec hyperparameter: number of surrounding context words to be used for training."
         env_type: "int"
         default: 5
-      min_count: 
+      - environment: min_count
         description: "word2vec hyperparameter: minimal number of occurrence for each word to be used for training."
         env_type: "int"
         default: 5
