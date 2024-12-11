@@ -38,7 +38,7 @@ x-veld:
         description: "word2vec hyperparameter: number of training epochs"
         env_type: "int"
         optional: true
-        default: 100
+        default: 50
       - environment: vector_size
         description: "word2vec hyperparameter: number of dimensions of the word vectors"
         env_type: "int"
@@ -46,7 +46,7 @@ x-veld:
       - environment: window
         description: "word2vec hyperparameter: number of surrounding context words to be used for training."
         env_type: "int"
-        default: 5
+        default: 3
       - environment: min_count
         description: "word2vec hyperparameter: minimal number of occurrence for each word to be used for training."
         env_type: "int"
@@ -64,8 +64,8 @@ services:
       in_train_data_file: null
       out_model_file: null
       model_description: null
-      epochs: 100
+      epochs: 50
       vector_size: 200
-      window: 5
+      window: 3
       min_count: 5
 
