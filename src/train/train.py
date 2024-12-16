@@ -110,7 +110,7 @@ def write_metadata():
         "x-veld": {
             "data": {
                 "description": MODEL_DESCRIPTION,
-                "file_types": "bin",
+                "file_type": "bin",
                 "topics": [
                     "NLP",
                     "word embeddings",
