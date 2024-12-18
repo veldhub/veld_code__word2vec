@@ -11,9 +11,7 @@ x-veld:
         description: "arbitrary storage for word2vec experiments"
         file_type:
           - "word2vec model"
-          - "training data"
-          - "NLP training data"
-          - "raw text"
+          - "txt"
         content:
           - "NLP model"
           - "word embeddings model"
@@ -21,9 +19,20 @@ x-veld:
           - "NLP training data"
           - "word embeddings training data"
           - "raw text"
+
     output:
       - volume: /veld/output/
         description: "arbitrary storage for word2vec experiments"
+        file_type:
+          - "word2vec model"
+          - "txt"
+        content:
+          - "NLP model"
+          - "word embeddings model"
+          - "model metadata"
+          - "NLP training data"
+          - "word embeddings training data"
+          - "raw text"
 
 services:
   veld_jupyter_notebook:
