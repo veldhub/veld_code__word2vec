@@ -28,11 +28,11 @@ x-veld:
     config:
       - environment_var: train_data_description
         description: "short human description for the kind of training data"
-        env_type: "str"
+        var_type: "str"
         optional: true
       - environment_var: model_description
         description: "short human description for the overall model and its purpose"
-        env_type: "str"
+        var_type: "str"
         optional: true
       - environment_var: epochs
         description: "word2vec hyperparameter: number of training epochs"
