@@ -1,55 +1,55 @@
 x-veld:
   code:
     description: "word2vec training setup"
-    topics:
+    topic:
       - "NLP"
       - "Machine Learning"
       - "word embeddings"
 
-    inputs:
+    input:
       - volume: /veld/input/
-        environment: in_train_data_file
+        environment_var: in_train_data_file
         description: "training data. Must be one single txt file, one sentence per line."
         file_type: "txt"
-        contents:
+        content:
           - "NLP training data"
           - "word embeddings training data"
           - "raw text"
 
-    outputs:
+    output:
       - volume: /veld/output/
-        environment: out_model_file
+        environment_var: out_model_file
         description: "self trained word embeddings word2vec model"
         file_type: "word2vec model"
-        contents:
+        content:
           - "NLP model"
           - "word embeddings model"
 
-    settings:
-      - environment: train_data_description
+    config:
+      - environment_var: train_data_description
         description: "short human description for the kind of training data"
         env_type: "str"
         optional: true
-      - environment: model_description
+      - environment_var: model_description
         description: "short human description for the overall model and its purpose"
         env_type: "str"
         optional: true
-      - environment: epochs
+      - environment_var: epochs
         description: "word2vec hyperparameter: number of training epochs"
-        env_type: "int"
+        var_type: "int"
         optional: true
         default: 50
-      - environment: vector_size
+      - environment_var: vector_size
         description: "word2vec hyperparameter: number of dimensions of the word vectors"
-        env_type: "int"
+        var_type: "int"
         default: 200
-      - environment: window
+      - environment_var: window
         description: "word2vec hyperparameter: number of surrounding context words to be used for training."
-        env_type: "int"
+        var_type: "int"
         default: 3
-      - environment: min_count
+      - environment_var: min_count
         description: "word2vec hyperparameter: minimal number of occurrence for each word to be used for training."
-        env_type: "int"
+        var_type: "int"
         default: 5
           
 services:

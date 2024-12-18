@@ -1,12 +1,12 @@
 x-veld:
   code:
     description: "a word2vec jupyter notebook, for quick experiments"
-    topics:
+    topic:
       - "NLP"
       - "Machine Learning"
       - "word embeddings"
 
-    inputs:
+    input:
       - volume: /veld/input/
         description: "arbitrary storage for word2vec experiments"
         file_type:
@@ -14,14 +14,14 @@ x-veld:
           - "training data"
           - "NLP training data"
           - "raw text"
-        contents:
+        content:
           - "NLP model"
           - "word embeddings model"
           - "model metadata"
           - "NLP training data"
           - "word embeddings training data"
           - "raw text"
-    outputs:
+    output:
       - volume: /veld/output/
         description: "arbitrary storage for word2vec experiments"
 
