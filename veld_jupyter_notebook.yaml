@@ -28,10 +28,10 @@ x-veld:
           - "txt"
         content:
           - "NLP model"
-          - "word embeddings model"
+          - "Word Embeddings model"
           - "model metadata"
           - "NLP training data"
-          - "word embeddings training data"
+          - "Word Embeddings training data"
           - "raw text"
 
 services:
