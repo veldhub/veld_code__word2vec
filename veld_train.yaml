@@ -4,7 +4,7 @@ x-veld:
     topic:
       - "NLP"
       - "Machine Learning"
-      - "word embeddings"
+      - "Word Embeddings"
 
     input:
       - volume: /veld/input/
@@ -13,17 +13,17 @@ x-veld:
         file_type: "txt"
         content:
           - "NLP training data"
-          - "word embeddings training data"
+          - "Word Embeddings training data"
           - "raw text"
 
     output:
       - volume: /veld/output/
         environment_var: out_model_file
-        description: "self trained word embeddings word2vec model"
+        description: "self trained Word Embeddings word2vec model"
         file_type: "word2vec model"
         content:
           - "NLP model"
-          - "word embeddings model"
+          - "Word Embeddings model"
 
     config:
       - environment_var: train_data_description
