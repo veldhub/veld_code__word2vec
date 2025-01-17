@@ -1,6 +1,6 @@
 x-veld:
   code:
-    description: "word2vec training setup"
+    description: "A word2vec training setup"
     topic:
       - "NLP"
       - "Machine Learning"
