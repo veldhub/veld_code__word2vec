@@ -1,0 +1,10 @@
+x-veld:
+  code:
+
+services:
+  veld_export:
+    build: .
+    command: python /veld/code/export.py
+    volumes:
+      - ./src/export/:/veld/code/
+
