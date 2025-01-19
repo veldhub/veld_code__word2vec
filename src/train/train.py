@@ -5,7 +5,7 @@ from datetime import datetime
 import gensim
 import yaml
 from gensim.models.word2vec import LineSentence
-from gensim.models.callbacks import CallbackAny2Vec
+# from gensim.models.callbacks import CallbackAny2Vec
 
 
 # train data 
@@ -64,18 +64,18 @@ def print_params():
 
 def train_and_persist():
 
-    class LossLogger(CallbackAny2Vec):
-        def __init__(self):
-            self.epoch = 0
+    # class LossLogger(CallbackAny2Vec):
+    #     def __init__(self):
+    #         self.epoch = 0
+    # 
+    #     def on_epoch_end(self, model):
+    #         loss = model.get_latest_training_loss()
+    #         print(f"epoch: {self.epoch}, loss: {loss}", flush=True)
+    #         self.epoch += 1
 
-        def on_epoch_end(self, model):
-            loss = model.get_latest_training_loss()
-            print(f"epoch: {self.epoch}, loss: {loss}", flush=True)
-            self.epoch += 1
-
-    print("start training", flush=True)
     sentences = LineSentence(TRAIN_DATA_PATH)
     time_start = datetime.now()
+    print("training start:", time_start, flush=True)
     model = gensim.models.Word2Vec(
         sentences=sentences,
         epochs=EPOCHS,
@@ -83,12 +83,14 @@ def train_and_persist():
         window=WINDOW,
         min_count=MIN_COUNT,
         workers=os.cpu_count(),
-        callbacks=[LossLogger()],
+        # callbacks=[LossLogger()],
     )
     global DURATION
     DURATION = (datetime.now() - time_start).seconds / 60
+    # print(f"done. duration in minutes: {DURATION}", flush=True)
+    time_end = datetime.now()
+    print("training done:", time_end, flush=True)
     model.save(OUT_MODEL_PATH)
-    print(f"done. duration in minutes: {DURATION}", flush=True)
 
 
 def write_metadata():
