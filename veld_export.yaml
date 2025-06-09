@@ -21,6 +21,7 @@ x-veld:
       volume: /veld/output/
       environment_var: out_vector_file
       file_type: "pkl"
+      description: "exports the model as a dict with words as keys and numpy vectors as values."
       content:
         - "Word Embeddings model"
         - "Word Embeddings vectors"
