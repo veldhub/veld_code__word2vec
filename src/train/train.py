@@ -18,7 +18,8 @@ def get_env_var(var_name, cast_func=None, mandatory=False):
         try:
             var_content = cast_func(var_content)
         except:
-            raise Exception(f"Could not convert var '{var_name}' to {cast_func}")
+            if mandatory:
+                raise Exception(f"Could not convert var '{var_name}' to {cast_func}")
     return var_content
 
 
@@ -150,6 +151,14 @@ def main():
     cpu_count = get_env_var("cpu_count", int)
     training_architecture = "word2vec"
 
+    max_cpu = os.cpu_count()
+    if cpu_count is None:
+        cpu_count = max_cpu
+        print("no cpu_count given. Setting to maximum available cores:", cpu_count)
+    elif cpu_count > max_cpu:
+        cpu_count = max_cpu
+        print("cpu_count given is higher than maximum available cores. Setting to maximum available cores:", cpu_count)
+
     train_data_path_list = []
     out_model_path_list = []
     out_model_metadata_path_list = []
@@ -172,12 +181,6 @@ def main():
         print("out_model_metadata_path:", out_model_metadata_path)
         print("model_description:", model_description)
         print("model_id:", model_id)
-        print("epochs:", epochs)
-        print("vector_size:", vector_size)
-        print("window:", window)
-        print("min_count:", min_count)
-        print("cpu_count:", cpu_count)
-        print("training_architecture:", training_architecture)
 
         train_data_description = get_description()
         duration = train_and_persist(train_data_path, epochs, vector_size, window, min_count, cpu_count, out_model_path)
