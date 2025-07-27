@@ -29,10 +29,12 @@ x-veld:
 services:
   veld_export_to_pkl:
     build: .
-    command: python /veld/code/export.py
+    command: python /veld/code/export.py to_pkl
     volumes:
       - ./src/export/:/veld/code/
     environment:
       in_model_file: null
       out_vector_file: null
+      out_prefix: null
+      out_suffix: null
 

@@ -1,0 +1,34 @@
+x-veld:
+  code:
+    description: "exports a word2vec model to a postgressql database with pgvector installed."
+    topic:
+      - "ETL"
+      - "NLP"
+      - "Machine Learning"
+      - "Word Embeddings"
+
+    input:
+      volume: /veld/input/
+      environment_var: in_model_file
+      file_type: "word2vec model"
+      content: 
+        - "Word Embeddings model"
+        - "Word Embeddings vectors"
+
+services:
+  veld_export_to_sql:
+    build: .
+    command: python -u /veld/code/export.py to_sql
+    volumes:
+      - ./src/export/:/veld/code/
+    environment:
+      in_model_file: null
+      out_vector_table: null
+      out_prefix: null
+      out_suffix: null
+      DB_NAME: null
+      DB_USER: null
+      DB_PASSWORD: null
+      DB_HOST: null
+      DB_PORT: null
+
