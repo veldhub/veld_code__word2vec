@@ -27,7 +27,7 @@ x-veld:
         - "Word Embeddings vectors"
 
 services:
-  veld_export:
+  veld_export_to_pkl:
     build: .
     command: python /veld/code/export.py
     volumes:
