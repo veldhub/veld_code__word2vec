@@ -21,7 +21,7 @@ print("out_prefix:", OUT_PREFIX)
 print("out_suffix:", OUT_SUFFIX)
 if EXPORT_METHOD == "to_pkl":
     print("out_vector_file:", OUT_VECTOR_FILE)
-elif EXPORT_METHOD == "to_sql":
+elif EXPORT_METHOD == "to_db":
     DB_NAME = os.getenv("DB_NAME")
     DB_USER = os.getenv("DB_USER")
     DB_PASSWORD = os.getenv("DB_PASSWORD")
@@ -114,8 +114,8 @@ def export_model(in_path, out_id):
         with open(out_id, "wb") as f:
             pickle.dump(vector_dict, f)
 
-    # sql
-    elif EXPORT_METHOD == "to_sql":
+    # db
+    elif EXPORT_METHOD == "to_db":
         print("persisting dict to database")
 
         # perpare data
@@ -158,11 +158,11 @@ def export_model(in_path, out_id):
 
 
 def main():
-    if EXPORT_METHOD == "to_sql":
+    if EXPORT_METHOD == "to_db":
         prepare_db()
     for in_out in create_in_out_list():
         export_model(in_out[0], in_out[1])
-    if EXPORT_METHOD == "to_sql":
+    if EXPORT_METHOD == "to_db":
         cursor.close()
         conn.close()
 

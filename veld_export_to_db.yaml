@@ -16,9 +16,9 @@ x-veld:
         - "Word Embeddings vectors"
 
 services:
-  veld_export_to_sql:
+  veld_export_to_db:
     build: .
-    command: python -u /veld/code/export.py to_sql
+    command: python -u /veld/code/export.py to_db
     volumes:
       - ./src/export/:/veld/code/
     environment:
