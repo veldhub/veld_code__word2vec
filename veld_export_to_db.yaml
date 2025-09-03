@@ -23,7 +23,9 @@ services:
       - ./src/export/:/veld/code/
     environment:
       in_model_file: null
+      in_metadata_file: null
       out_vector_table: null
+      out_metadata_table: null
       out_prefix: null
       out_suffix: null
       DB_NAME: null

@@ -1,6 +1,6 @@
 x-veld:
   code:
-    description: "exports a word2vec model to a pkl file containing a python dict, where the keys
+    description: "exports a word2vec model to a csv file containing a python dict, where the keys
       are words and its values are the learned vectors, represented as high-dimensional numpy
       arrays."
     topic:
@@ -19,24 +19,25 @@ x-veld:
 
     output:
       volume: /veld/output/
-      environment_var: out_pkl_file
-      file_type: "pkl"
-      description: "exports the model as a dict with words as keys and numpy vectors as values."
+      environment_var: out_csv_file
+      file_type: "csv"
+      description: "exports the model as a csv."
       content:
         - "Word Embeddings model"
         - "Word Embeddings vectors"
 
 services:
-  veld_export_to_pkl:
+  veld_export_to_csv:
     build: .
-    command: python /veld/code/export.py to_pkl
+    command: python /veld/code/export.py to_csv
     volumes:
       - ./src/export/:/veld/code/
     environment:
       in_model_file: null
       in_metadata_file: null
-      out_pkl_file: null
+      out_vector_file: null
       out_metadata_file: null
       out_prefix: null
       out_suffix: null
+
 
