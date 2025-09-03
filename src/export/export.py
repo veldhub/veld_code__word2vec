@@ -375,6 +375,24 @@ def write_vector_table(out_vector_table, metadata_table_name, vector_dict, metad
             table_name=Identifier(out_vector_table),
         ).executemany(word_embedding_list)
 
+    # create index
+    query(
+        dedent(
+            """\
+            CREATE INDEX ON {table_name}
+            USING ivfflat (embedding vector_cosine_ops)
+            WITH (lists=1000)
+            """
+        ),
+        print_query=True,
+        table_name=Identifier(out_vector_table),
+    ).execute()
+    query(
+        "ANALYZE {table_name}",
+        print_query=True,
+        table_name=Identifier(out_vector_table),
+    ).execute()
+
 
 def export_model_to_db(vector_dict, metadata, out_vector_table, out_metadata_table):
     print(
