@@ -276,10 +276,10 @@ def write_metadata_table(metadata_table_name, metadata, vector_table_name):
               train_data_md5_hash = EXCLUDED.train_data_md5_hash,
               training_vector_size = EXCLUDED.training_vector_size,
               training_epochs = EXCLUDED.training_epochs,
-              window_size = EXCLUDED.training_epochs,
-              min_count = EXCLUDED.training_epochs,
+              window_size = EXCLUDED.window_size,
+              min_count = EXCLUDED.min_count,
               training_duration_minutes = EXCLUDED.training_duration_minutes,
-              model_data_size = EXCLUDED.training_duration_minutes
+              model_data_size = EXCLUDED.model_data_size
             """
         ),
         print_query=True,
