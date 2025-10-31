@@ -143,7 +143,7 @@ def main():
     train_data_file = get_env_var("in_train_data_file")
     model_description = get_env_var("model_description")
     out_model_file = get_env_var("out_model_file")
-    out_model_metadata_file = "/veld/output/veld.yaml"
+    out_model_metadata_file = "veld.yaml"
     epochs = get_env_var("epochs", int)
     vector_size = get_env_var("vector_size", int)
     window = get_env_var("window", int)
@@ -174,7 +174,7 @@ def main():
             out_model_metadata_path_list.append("/veld/output/" + file_name + ".yaml")
 
     for train_data_path, out_model_path, out_model_metadata_path in zip(train_data_path_list, out_model_path_list, out_model_metadata_path_list): 
-        model_id = out_model_path.replace(".bin", "")
+        model_id = out_model_path.rsplit("/", 1)[1].replace(".bin", "")
 
         print("train_data_path:", train_data_path)
         print("out_model_path:", out_model_path)
