@@ -1,5 +1,6 @@
 import os
 import subprocess
+import json
 from datetime import datetime
 
 import gensim
@@ -43,34 +44,107 @@ def get_description():
                 pass
 
 
+def load_checkpoint(checkpoint_path):
+    """Load training checkpoint if it exists."""
+    if os.path.exists(checkpoint_path):
+        with open(checkpoint_path, 'r') as f:
+            return json.load(f)
+    return None
+
+
+def save_checkpoint(checkpoint_path, epoch, model_path, time_start):
+    """Save training checkpoint."""
+    checkpoint_data = {
+        'completed_epochs': epoch,
+        'model_path': model_path,
+        'time_start': time_start.isoformat()
+    }
+    with open(checkpoint_path, 'w') as f:
+        json.dump(checkpoint_data, f)
+
+
 def train_and_persist(train_data_path, epochs, vector_size, window, min_count, cpu_count, out_model_path):
-
-    # class LossLogger(CallbackAny2Vec):
-    #     def __init__(self):
-    #         self.epoch = 0
-    # 
-    #     def on_epoch_end(self, model):
-    #         loss = model.get_latest_training_loss()
-    #         print(f"epoch: {self.epoch}, loss: {loss}", flush=True)
-    #         self.epoch += 1
-
+    """Train word2vec model with checkpoint support."""
+    
+    checkpoint_path = out_model_path + ".checkpoint"
+    start_epoch = 0
+    model = None
+    time_start = None
+    
+    # Check for existing checkpoint
+    checkpoint = load_checkpoint(checkpoint_path)
+    
+    if checkpoint:
+        start_epoch = checkpoint['completed_epochs']
+        model_path = checkpoint['model_path']
+        time_start = datetime.fromisoformat(checkpoint['time_start'])
+        
+        if os.path.exists(model_path) and start_epoch < epochs:
+            print(f"Resuming from epoch {start_epoch}/{epochs}", flush=True)
+            model = gensim.models.Word2Vec.load(model_path)
+        elif start_epoch >= epochs:
+            print(f"Training already completed ({start_epoch} epochs)", flush=True)
+            duration = (datetime.now() - time_start).seconds / 60
+            return duration
+    
+    # Initialize timing if starting fresh
+    if time_start is None:
+        time_start = datetime.now()
+        print("training start:", time_start, flush=True)
+    
+    # Load training data
     sentences = LineSentence(train_data_path)
-    time_start = datetime.now()
-    print("training start:", time_start, flush=True)
-    model = gensim.models.Word2Vec(
-        sentences=sentences,
-        epochs=epochs,
-        vector_size=vector_size,
-        window=window,
-        min_count=min_count,
-        workers=cpu_count,
-        # callbacks=[LossLogger()],
-    )
-    duration = (datetime.now() - time_start).seconds / 60
-    # print(f"done. duration in minutes: {DURATION}", flush=True)
+    
+    # Initialize model if starting fresh
+    if model is None:
+        print("Initializing new model", flush=True)
+        model = gensim.models.Word2Vec(
+            sentences=sentences,
+            epochs=0,  # Don't train yet, we'll do it epoch by epoch
+            vector_size=vector_size,
+            window=window,
+            min_count=min_count,
+            workers=cpu_count,
+        )
+        # Build vocabulary
+        print("Building vocabulary...", flush=True)
+    
+    # Train epoch by epoch with checkpointing
+    for epoch in range(start_epoch, epochs):
+        print(f"Training epoch {epoch + 1}/{epochs}", flush=True)
+        
+        model.train(
+            sentences,
+            total_examples=model.corpus_count,
+            epochs=1
+        )
+        
+        # Save checkpoint after each epoch
+        temp_model_path = f"{out_model_path}.epoch_{epoch + 1}.tmp"
+        model.save(temp_model_path)
+        save_checkpoint(checkpoint_path, epoch + 1, temp_model_path, time_start)
+        
+        print(f"Checkpoint saved at epoch {epoch + 1}", flush=True)
+    
+    # Calculate duration
     time_end = datetime.now()
+    duration = (time_end - time_start).seconds / 60
     print("training done:", time_end, flush=True)
+    
+    # Save final model
+    print(f"Saving final model to {out_model_path}", flush=True)
     model.save(out_model_path)
+    
+    # Clean up temporary files
+    for epoch in range(epochs):
+        temp_path = f"{out_model_path}.epoch_{epoch + 1}.tmp"
+        if os.path.exists(temp_path):
+            os.remove(temp_path)
+    
+    # Remove checkpoint file after successful completion
+    if os.path.exists(checkpoint_path):
+        os.remove(checkpoint_path)
+    
     return duration
 
 
@@ -203,4 +277,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
